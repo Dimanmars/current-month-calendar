@@ -77,7 +77,7 @@ function fillDates(yr,mth,dy){
 		fillDay(i > 35 - myDate.firstDay+1, true, 6, myDate.firstDay+(i-36), rows==6, currDay, i);
 	} 
 
-	jQuery('#date').text(`${myDate.day} ${myDate.monthName[myDate.month]} ${myDate.year}`);
+	jQuery('#date').text(`${myDate.monthName[myDate.month]}`);
 }
 
 
