@@ -1,0 +1,22 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+#date {
+  padding: 40px 0;
+  text-align: center;
+}
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+}
+.calendar td {
+  border: 2px solid white;
+  background: rgba(0, 188, 0,.05);
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+}
+.calendar td.active {
+  background: rgba(255, 0, 0,.7)
+}
