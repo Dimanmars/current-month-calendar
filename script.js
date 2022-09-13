@@ -51,8 +51,8 @@ function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
 
 const date = new Date();
 
-createCalendar(calendar1, 2022, date.getMonth());
-createCalendar(calendar2, 2022, (date.getMonth() + 1));
+createCalendar(calendar1, 2022, 9);
+createCalendar(calendar2, 2022, 10);
 
 
 document.addEventListener("click", function(event) {
