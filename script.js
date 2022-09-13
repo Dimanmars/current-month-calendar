@@ -38,7 +38,7 @@ function createCalendar(elem, year, month) {
 	elem.innerHTML = table;
 
 	const months = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
-	let monthName = months[d.getMonth()];
+	let monthName = months[month - 1];
 	elem.previousElementSibling.innerText = monthName;
 }
 
