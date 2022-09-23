@@ -53,7 +53,7 @@ const date = new Date();
 
 createCalendar(calendar1, 2022, 9);
 createCalendar(calendar2, 2022, 10);
-createCalendar(calendar2, 2022, 11);
+createCalendar(calendar3, 2022, 11);
 
 
 document.addEventListener("click", function(event) {
