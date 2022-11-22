@@ -51,15 +51,23 @@ function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
 
 const date = new Date();
 curMonth = date.getMonth() + 1;
-console.log(date.getMonth());
 
 createCalendar(calendar1, 2022, curMonth);
 createCalendar(calendar2, 2022, curMonth + 1);
 createCalendar(calendar3, 2022, curMonth + 2);
 
 
-document.addEventListener("click", function(event) {
-  console.log(event.target);
+document.addEventListener("pointerover", function(event) {
+  if (event.target.tagName.toLowerCase() === 'td' && event.pressure !== 0) {
+    event.target.classList.toggle("active");
+  }
+});
+document.addEventListener("mousedown", function(event) {
+  if (event.target.tagName.toLowerCase() === 'td' && event.pressure !== 0) {
+    event.target.classList.toggle("active");
+  }
+});
+document.addEventListener("ontouchmove", function(event) {
   if (event.target.tagName.toLowerCase() === 'td') {
     event.target.classList.toggle("active");
   }
