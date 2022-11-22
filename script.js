@@ -51,10 +51,21 @@ function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
 
 const date = new Date();
 curMonth = date.getMonth() + 1;
+curYear = date.getFullYear();
 
-createCalendar(calendar1, 2022, curMonth);
-createCalendar(calendar2, 2022, curMonth + 1);
-createCalendar(calendar3, 2022, curMonth + 2);
+createCalendar(calendar1, curYear, curMonth);
+if (curMonth > 11) {
+	curMonth = 0;
+	createCalendar(calendar2, curYear + 1, curMonth + 1);
+	createCalendar(calendar3, curYear + 1, curMonth + 2);
+} else if (curMonth > 10) {
+	createCalendar(calendar2, curYear, curMonth + 1);
+	curMonth = 0;
+	createCalendar(calendar3, curYear + 1, curMonth + 1);
+} else {
+	createCalendar(calendar2, curYear, curMonth + 1);
+	createCalendar(calendar3, curYear, curMonth + 2);
+}
 
 
 document.addEventListener("pointerover", function(event) {
@@ -64,11 +75,6 @@ document.addEventListener("pointerover", function(event) {
 });
 document.addEventListener("mousedown", function(event) {
   if (event.target.tagName.toLowerCase() === 'td' && event.pressure !== 0) {
-    event.target.classList.toggle("active");
-  }
-});
-document.addEventListener("ontouchmove", function(event) {
-  if (event.target.tagName.toLowerCase() === 'td') {
     event.target.classList.toggle("active");
   }
 });
