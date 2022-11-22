@@ -68,13 +68,16 @@ if (curMonth > 11) {
 }
 
 
-document.addEventListener("pointerover", function(event) {
-  if (event.target.tagName.toLowerCase() === 'td' && event.pressure !== 0) {
+document.addEventListener("click", function(event) {
+  if (event.target.tagName.toLowerCase() === 'td') {
     event.target.classList.toggle("active");
   }
 });
-document.addEventListener("mousedown", function(event) {
-  if (event.target.tagName.toLowerCase() === 'td' && event.pressure !== 0) {
-    event.target.classList.toggle("active");
-  }
-});
+
+// $(document).on("touchstart mousedown", function(event) {
+//   if (event.target.tagName.toLowerCase() === 'td') {
+// 		event.preventDefault();
+// 		event.stopPropagation();
+//     event.target.classList.toggle("active");
+//   }
+// });
