@@ -67,9 +67,20 @@ if (curMonth > 11) {
 	createCalendar(calendar3, curYear, curMonth + 2);
 }
 
+let pointerHeld;
 
-document.addEventListener("click", function(event) {
+document.addEventListener("pointerdown", function() {
+	pointerHeld = 1;
   if (event.target.tagName.toLowerCase() === 'td') {
+    event.target.classList.toggle("active");
+  }
+});
+document.addEventListener("pointerup", function() {
+	pointerHeld = 0;
+});
+
+document.addEventListener("pointerover", function(event) {
+  if (event.target.tagName.toLowerCase() === 'td' && pointerHeld) {
     event.target.classList.toggle("active");
   }
 });
