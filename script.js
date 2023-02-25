@@ -68,27 +68,33 @@ if (curMonth > 11) {
 }
 
 let pointerHeld;
+let pointerRole;
 
-document.addEventListener("pointerdown", function() {
+document.addEventListener("pointerdown", function(event) {
 	pointerHeld = 1;
   if (event.target.tagName.toLowerCase() === 'td') {
-    event.target.classList.toggle("active");
+		if (event.target.classList.contains("active")) {
+			event.target.classList.remove("active");
+			pointerRole = 1;
+		} else {
+			pointerRole = 0;
+		}
   }
 });
 document.addEventListener("pointerup", function() {
 	pointerHeld = 0;
+	pointerRole = null;
 });
 
-document.addEventListener("pointerover", function(event) {
-  if (event.target.tagName.toLowerCase() === 'td' && pointerHeld) {
-    event.target.classList.toggle("active");
-  }
+document.addEventListener("pointermove", function(event) {
+	if (pointerHeld) {
+		let elem = document.elementFromPoint(event.clientX, event.clientY);
+		if (elem.tagName.toLowerCase() === "td") {
+			if (!pointerRole) {
+				elem.classList.add("active");
+			} else {
+				elem.classList.remove("active");
+			}
+		}
+	}
 });
-
-// $(document).on("touchstart mousedown", function(event) {
-//   if (event.target.tagName.toLowerCase() === 'td') {
-// 		event.preventDefault();
-// 		event.stopPropagation();
-//     event.target.classList.toggle("active");
-//   }
-// });

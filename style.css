@@ -17,6 +17,7 @@ table {
 }
 table {
   margin-bottom: 50px;
+  touch-action: none;
 }
 th {
   padding-bottom: 10px;
