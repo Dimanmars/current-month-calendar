@@ -136,6 +136,7 @@ document.addEventListener("pointerdown", function(event) {
 document.addEventListener("pointerup", function() {
 	pointerHeld = 0;
 	pointerRole = null;
+	writeLocalData();
 });
 
 document.addEventListener("pointermove", function(event) {
@@ -148,6 +149,5 @@ document.addEventListener("pointermove", function(event) {
 				elem.classList.remove("active");
 			}
 		}
-		writeLocalData();
 	}
 });
