@@ -36,6 +36,7 @@ function createCalendar(elem, year, month) {
 	table += '</tr></table>';
 
 	elem.innerHTML = table;
+	elem.setAttribute("data-app-date", elem.closest(".appartmentData").id + "-" + d.getFullYear() + "-" + d.getMonth());
 
 	const months = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 	let monthName = months[month - 1];
@@ -48,36 +49,87 @@ function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
 	return day - 1;
 }
 
-
-const date = new Date();
-curMonth = date.getMonth() + 1;
-curYear = date.getFullYear();
-
-createCalendar(calendar1, curYear, curMonth);
-if (curMonth > 11) {
-	curMonth = 0;
-	createCalendar(calendar2, curYear + 1, curMonth + 1);
-	createCalendar(calendar3, curYear + 1, curMonth + 2);
-} else if (curMonth > 10) {
-	createCalendar(calendar2, curYear, curMonth + 1);
-	curMonth = 0;
-	createCalendar(calendar3, curYear + 1, curMonth + 1);
-} else {
-	createCalendar(calendar2, curYear, curMonth + 1);
-	createCalendar(calendar3, curYear, curMonth + 2);
+function buildCalendars() {
+  return new Promise((function (resolve, reject) {
+		const date = new Date();
+		curMonth = date.getMonth() + 1;
+		curYear = date.getFullYear();
+		
+		createCalendar(calendar11, curYear, curMonth);
+		if (curMonth > 11) {
+			curMonth = 0;
+			createCalendar(calendar12, curYear + 1, curMonth + 1);
+			createCalendar(calendar13, curYear + 1, curMonth + 2);
+		} else if (curMonth > 10) {
+			createCalendar(calendar12, curYear, curMonth + 1);
+			curMonth = 0;
+			createCalendar(calendar13, curYear + 1, curMonth + 1);
+		} else {
+			createCalendar(calendar12, curYear, curMonth + 1);
+			createCalendar(calendar13, curYear, curMonth + 2);
+		}
+		createCalendar(calendar21, curYear, curMonth);
+		if (curMonth > 11) {
+			curMonth = 0;
+			createCalendar(calendar22, curYear + 1, curMonth + 1);
+			createCalendar(calendar23, curYear + 1, curMonth + 2);
+		} else if (curMonth > 10) {
+			createCalendar(calendar22, curYear, curMonth + 1);
+			curMonth = 0;
+			createCalendar(calendar23, curYear + 1, curMonth + 1);
+		} else {
+			createCalendar(calendar22, curYear, curMonth + 1);
+			createCalendar(calendar23, curYear, curMonth + 2);
+		}
+		resolve();
+	}))
 }
+
+function readLocalData(){
+	let calendars = {...localStorage};
+	Object.entries(calendars).forEach(entry => {
+		const [key, value] = entry;
+		if (document.querySelector("[data-app-date=" + key + "]")) {
+			document.querySelector("[data-app-date=" + key + "]").innerHTML = value;
+		} else {
+			localStorage.removeItem(key);
+		}
+	});
+}
+buildCalendars().then(function(){
+	readLocalData()
+});
+
+function writeLocalData() {
+	let calendars = document.querySelectorAll("[id^='calendar']");
+	calendars.forEach((element) => {
+		localStorage.setItem(element.getAttribute("data-app-date"), element.innerHTML);
+	});
+}
+
+// выбор апартаментов
+document.querySelector("[name='selectAppartment']").addEventListener("change", function(){
+	let activeApp = this.value;
+	const appartmentsData = document.querySelectorAll('.appartmentData');
+	appartmentsData.forEach((element) => {
+		element.classList.remove('appartmentData--active');
+	});
+	document.querySelector("#" + activeApp).classList.add("appartmentData--active");
+});
+
 
 let pointerHeld;
 let pointerRole;
 
 document.addEventListener("pointerdown", function(event) {
-	pointerHeld = 1;
   if (event.target.tagName.toLowerCase() === 'td') {
+		pointerHeld = 1;
 		if (event.target.classList.contains("active")) {
 			event.target.classList.remove("active");
 			pointerRole = 1;
 		} else {
 			pointerRole = 0;
+			event.target.classList.add("active");
 		}
   }
 });
@@ -96,5 +148,6 @@ document.addEventListener("pointermove", function(event) {
 				elem.classList.remove("active");
 			}
 		}
+		writeLocalData();
 	}
 });
