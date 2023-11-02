@@ -1,7 +1,7 @@
 function createCalendar(elem, year, month) {
 	
 
-	let mon = month - 1; // months in JS are 0..11, not 1..12
+	let mon = month - 1; // months in JS are 0-indexed; 0..11, not 1..12
 	let d = new Date(year, mon);
 
 	let table = '<table><tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr><tr>';
@@ -52,8 +52,8 @@ function getDay(date) { // get day number from 0 (monday) to 6 (sunday)
 function buildCalendars() {
   return new Promise((function (resolve, reject) {
 		const date = new Date();
-		curMonth = date.getMonth() + 1;
-		curYear = date.getFullYear();
+		let curMonth = date.getMonth() + 1;
+		let curYear = date.getFullYear();
 		
 		createCalendar(calendar11, curYear, curMonth);
 		if (curMonth > 11) {
@@ -68,6 +68,7 @@ function buildCalendars() {
 			createCalendar(calendar12, curYear, curMonth + 1);
 			createCalendar(calendar13, curYear, curMonth + 2);
 		}
+		curMonth = date.getMonth() + 1;
 		createCalendar(calendar21, curYear, curMonth);
 		if (curMonth > 11) {
 			curMonth = 0;
@@ -117,16 +118,15 @@ document.querySelector("[name='selectAppartment']").addEventListener("change", f
 	document.querySelector("#" + activeApp).classList.add("appartmentData--active");
 });
 
-
+// события указателя, работа с данными
 let pointerHeld;
 let pointerRole;
-
 document.addEventListener("pointerdown", function(event) {
   if (event.target.tagName.toLowerCase() === 'td') {
 		pointerHeld = 1;
 		if (event.target.classList.contains("active")) {
-			event.target.classList.remove("active");
 			pointerRole = 1;
+			event.target.classList.remove("active");
 		} else {
 			pointerRole = 0;
 			event.target.classList.add("active");
@@ -138,7 +138,6 @@ document.addEventListener("pointerup", function() {
 	pointerRole = null;
 	writeLocalData();
 });
-
 document.addEventListener("pointermove", function(event) {
 	if (pointerHeld) {
 		let elem = document.elementFromPoint(event.clientX, event.clientY);
